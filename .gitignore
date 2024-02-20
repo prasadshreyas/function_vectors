@@ -27,3 +27,4 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+notes-to-self.md
