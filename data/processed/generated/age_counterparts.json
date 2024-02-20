@@ -1,0 +1,122 @@
+[
+    {
+        "input": "Infant",
+        "output": "Elder"
+    },
+    {
+        "input": "Child",
+        "output": "Adult"
+    },
+    {
+        "input": "Toddler",
+        "output": "Senior"
+    },
+    {
+        "input": "Juvenile",
+        "output": "Mature"
+    },
+    {
+        "input": "Teenager",
+        "output": "Middle-aged"
+    },
+    {
+        "input": "Young adult",
+        "output": "Elderly"
+    },
+    {
+        "input": "Minor",
+        "output": "Of legal age"
+    },
+    {
+        "input": "Newborn",
+        "output": "Aged"
+    },
+    {
+        "input": "Youth",
+        "output": "Old-aged"
+    },
+    {
+        "input": "Underage",
+        "output": "Overage"
+    },
+    {
+        "input": "Pre-teen",
+        "output": "Retiree"
+    },
+    {
+        "input": "Adolescent",
+        "output": "Veteran"
+    },
+    {
+        "input": "School-age",
+        "output": "Pensioner"
+    },
+    {
+        "input": "Youngster",
+        "output": "Oldster"
+    },
+    {
+        "input": "Early twenties",
+        "output": "Late sixties"
+    },
+    {
+        "input": "Young",
+        "output": "Aged"
+    },
+    {
+        "input": "Early childhood",
+        "output": "Late adulthood"
+    },
+    {
+        "input": "Teen",
+        "output": "Senior citizen"
+    },
+    {
+        "input": "Neonate",
+        "output": "Centenarian"
+    },
+    {
+        "input": "Minority",
+        "output": "Majority (age)"
+    },
+    {
+        "input": "Kindergartener",
+        "output": "Graduate"
+    },
+    {
+        "input": "First-grader",
+        "output": "Postgraduate"
+    },
+    {
+        "input": "Grade-schooler",
+        "output": "Elder statesman"
+    },
+    {
+        "input": "Pubescent",
+        "output": "Menopausal"
+    },
+    {
+        "input": "Freshman",
+        "output": "Emeritus"
+    },
+    {
+        "input": "Sophomore",
+        "output": "Retired professional"
+    },
+    {
+        "input": "Junior",
+        "output": "Seasoned adult"
+    },
+    {
+        "input": "Senior (High School)",
+        "output": "Retired senior"
+    },
+    {
+        "input": "College student",
+        "output": "Retiree"
+    },
+    {
+        "input": "Young professional",
+        "output": "Retiring professional"
+    }
+]

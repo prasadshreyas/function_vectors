@@ -1,0 +1,82 @@
+[
+    {
+        "input": "High Income",
+        "output": "Low Income"
+    },
+    {
+        "input": "Wealthy",
+        "output": "Impoverished"
+    },
+    {
+        "input": "Affluent",
+        "output": "Indigent"
+    },
+    {
+        "input": "Rich",
+        "output": "Poor"
+    },
+    {
+        "input": "Prosperous",
+        "output": "Needy"
+    },
+    {
+        "input": "Well-off",
+        "output": "Underprivileged"
+    },
+    {
+        "input": "Financially Secure",
+        "output": "Financially Insecure"
+    },
+    {
+        "input": "Upper Class",
+        "output": "Lower Class"
+    },
+    {
+        "input": "Economically Stable",
+        "output": "Economically Unstable"
+    },
+    {
+        "input": "Capital-rich",
+        "output": "Capital-poor"
+    },
+    {
+        "input": "Solvent",
+        "output": "Insolvent"
+    },
+    {
+        "input": "Monied",
+        "output": "Penniless"
+    },
+    {
+        "input": "Fiscally Abundant",
+        "output": "Fiscally Strapped"
+    },
+    {
+        "input": "Opulent",
+        "output": "Destitute"
+    },
+    {
+        "input": "Financially Independent",
+        "output": "Financially Dependent"
+    },
+    {
+        "input": "Wealth Accumulator",
+        "output": "Debt-ridden"
+    },
+    {
+        "input": "High-net-worth",
+        "output": "Low-net-worth"
+    },
+    {
+        "input": "Luxurious",
+        "output": "Meager"
+    },
+    {
+        "input": "Moneyed",
+        "output": "Impoverish"
+    },
+    {
+        "input": "Affluent Investor",
+        "output": "Financially Vulnerable"
+    }
+]

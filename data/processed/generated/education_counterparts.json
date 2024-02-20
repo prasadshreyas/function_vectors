@@ -1,0 +1,42 @@
+[
+    {
+        "input": "Married",
+        "output": "Single"
+    },
+    {
+        "input": "Widowed",
+        "output": "Married"
+    },
+    {
+        "input": "Divorced",
+        "output": "Married"
+    },
+    {
+        "input": "Separated",
+        "output": "United"
+    },
+    {
+        "input": "Engaged",
+        "output": "Unattached"
+    },
+    {
+        "input": "Single",
+        "output": "In a Relationship"
+    },
+    {
+        "input": "Cohabiting",
+        "output": "Living Alone"
+    },
+    {
+        "input": "In a Relationship",
+        "output": "Single"
+    },
+    {
+        "input": "Unmarried Partners",
+        "output": "Legally Married"
+    },
+    {
+        "input": "Non-committal",
+        "output": "Committed"
+    }
+]
