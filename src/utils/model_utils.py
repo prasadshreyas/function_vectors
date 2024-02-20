@@ -24,6 +24,9 @@ def load_gpt_model_and_tokenizer(model_name:str, device='cuda'):
 
     print("Loading: ", model_name)
 
+    if not torch.cuda.is_available() and torch.backends.mps.is_available():
+        device = torch.device('mps')
+
     if model_name == 'gpt2-xl':
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         tokenizer.pad_token = tokenizer.eos_token
