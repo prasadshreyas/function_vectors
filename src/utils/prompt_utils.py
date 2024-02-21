@@ -490,7 +490,7 @@ def load_dataset(task_name: str,
     dataset: the dict contain the train/valid/test dataset splits
     """
 
-    data_folders = ['abstractive', 'extractive']
+    data_folders = ['abstractive', 'extractive', 'generated']
     assert test_size <= 1.0
 
     path = Path(root_data_dir)
