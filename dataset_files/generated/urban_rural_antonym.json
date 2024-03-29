@@ -1,0 +1,82 @@
+[
+    {
+        "input": "Urban",
+        "output": "Rural"
+    },
+    {
+        "input": "City",
+        "output": "Countryside"
+    },
+    {
+        "input": "Metropolitan",
+        "output": "Agrarian"
+    },
+    {
+        "input": "Downtown",
+        "output": "Outskirts"
+    },
+    {
+        "input": "Skyscrapers",
+        "output": "Farmlands"
+    },
+    {
+        "input": "Subway",
+        "output": "Dirt roads"
+    },
+    {
+        "input": "High-rise buildings",
+        "output": "Barns"
+    },
+    {
+        "input": "Streetlights",
+        "output": "Stars"
+    },
+    {
+        "input": "Apartment complexes",
+        "output": "Farmhouses"
+    },
+    {
+        "input": "Traffic",
+        "output": "Open fields"
+    },
+    {
+        "input": "Public transportation",
+        "output": "Tractors"
+    },
+    {
+        "input": "Malls",
+        "output": "Local markets"
+    },
+    {
+        "input": "City parks",
+        "output": "Forests"
+    },
+    {
+        "input": "Sidewalks",
+        "output": "Dirt paths"
+    },
+    {
+        "input": "Cafes",
+        "output": "Home-cooked meals"
+    },
+    {
+        "input": "Nightlife",
+        "output": "Quiet nights"
+    },
+    {
+        "input": "Urban sprawl",
+        "output": "Open landscapes"
+    },
+    {
+        "input": "Pollution",
+        "output": "Fresh air"
+    },
+    {
+        "input": "Crowds",
+        "output": "Solitude"
+    },
+    {
+        "input": "Fast-paced life",
+        "output": "Slow living"
+    }
+]

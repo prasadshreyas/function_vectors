@@ -33,53 +33,72 @@ def replace_activation_w_avg(layer_head_token_pairs, avg_activations, model, mod
     Returns: 
     rep_act: A function that specifies how to replace activations with an average when given a hooked pytorch module.
     """
+    print("----------------replace_activation_w_avg-------------")
     edit_layers = [x[0] for x in layer_head_token_pairs]
 
     def rep_act(output, layer_name, inputs):
+        print("Current layer name:", layer_name)
         current_layer = int(layer_name.split('.')[2])
-        if current_layer in edit_layers:    
+        print("Current layer index:", current_layer)
+        if current_layer in edit_layers:
+            print("Intervening in layer:", current_layer)
             if isinstance(inputs, tuple):
                 inputs = inputs[0]
+                print("Inputs are a tuple, taking the first element")
             
             # Determine shapes for intervention
             original_shape = inputs.shape
             new_shape = inputs.size()[:-1] + (model_config['n_heads'], model_config['resid_dim']//model_config['n_heads']) # split by head: + (n_attn_heads, hidden_size/n_attn_heads)
+            print("Original input shape:", original_shape)
+            print("New input shape after reshaping for heads:", new_shape)
             inputs = inputs.view(*new_shape) # inputs shape: (batch_size , tokens (n), heads, hidden_dim)
             
             # Perform Intervention:
             if batched_input:
-            # Patch activations from avg activations into baseline sentences (i.e. n_head baseline sentences being modified in this case)
+                print("Batched input mode")
+                # Patch activations from avg activations into baseline sentences (i.e. n_head baseline sentences being modified in this case)
                 for i in range(model_config['n_heads']):
                     layer, head_n, token_n = layer_head_token_pairs[i]
+                    print(f"Head {i}: layer={layer}, head={head_n}, token={token_n}")
                     inputs[i, token_n, head_n] = avg_activations[layer, head_n, idx_map[token_n]]
             elif last_token_only:
-            # Patch activations only at the last token for interventions like
-                for (layer,head_n,token_n) in layer_head_token_pairs:
-                    if layer == current_layer:
-                        inputs[-1,-1,head_n] = avg_activations[layer,head_n,idx_map[token_n]]
-            else:
-            # Patch activations into baseline sentence found at index, -1 of the batch (targeted & multi-token patching)
+                print("Last token only mode")
+                # Patch activations only at the last token for interventions like
                 for (layer, head_n, token_n) in layer_head_token_pairs:
                     if layer == current_layer:
-                        inputs[-1, token_n, head_n] = avg_activations[layer,head_n,idx_map[token_n]]
+                        print(f"Layer {layer}: Patching activation at last token for head {head_n}, token {token_n}")
+                        inputs[-1, -1, head_n] = avg_activations[layer, head_n, idx_map[token_n]]
+            else:
+                print("Patching activations in default mode")
+                # Patch activations into baseline sentence found at index, -1 of the batch (targeted & multi-token patching)
+                for (layer, head_n, token_n) in layer_head_token_pairs:
+                    if layer == current_layer:
+                        print(f"Layer {layer}: Patching activations for head {head_n}, token {token_n}")
+                        inputs[-1, token_n, head_n] = avg_activations[layer, head_n, idx_map[token_n]]
             
             inputs = inputs.view(*original_shape)
             proj_module = get_module(model, layer_name)
             out_proj = proj_module.weight
 
-            if 'gpt2-xl' in model_config['name_or_path']: # GPT2-XL uses Conv1D (not nn.Linear) & has a bias term, GPTJ does not
+            if 'gpt2-xl' in model_config['name_or_path']:
+                print("GPT2-XL model detected")
                 out_proj_bias = proj_module.bias
                 new_output = torch.addmm(out_proj_bias, inputs.squeeze(), out_proj)
-                
+            elif 'gpt2' in model_config['name_or_path']:
+                print("GPT2 model detected")
+                out_proj_bias = proj_module.bias
+                new_output = torch.addmm(out_proj_bias, inputs.squeeze(), out_proj)            
             elif 'gpt-j' in model_config['name_or_path']:
+                print("GPT-J model detected")
                 new_output = torch.matmul(inputs, out_proj.T)
-
             elif 'gpt-neox' in model_config['name_or_path']:
+                print("GPT-NeoX model detected")
                 out_proj_bias = proj_module.bias
                 new_output = torch.addmm(out_proj_bias, inputs.squeeze(), out_proj.T)
-            
             elif 'llama' in model_config['name_or_path']:
+                print("LLAMA model detected")
                 if '70b' in model_config['name_or_path']:
+                    print("LLAMA 70b variant detected")
                     # need to dequantize weights
                     out_proj_dequant = bnb.functional.dequantize_4bit(out_proj.data, out_proj.quant_state)
                     new_output = torch.matmul(inputs, out_proj_dequant.T)
@@ -88,9 +107,11 @@ def replace_activation_w_avg(layer_head_token_pairs, avg_activations, model, mod
             
             return new_output
         else:
+            print("No intervention in current layer:", current_layer)
             return output
 
     return rep_act
+
 
 def add_function_vector(edit_layer, fv_vector, device, idx=-1):
     """
@@ -276,6 +297,10 @@ def add_avg_to_activation(layer_head_token_pairs, avg_activations, model, model_
             out_proj = proj_module.weight
 
             if 'gpt2-xl' in model_config['name_or_path']: # GPT2-XL uses Conv1D (not nn.Linear) & has a bias term, GPTJ does not
+                out_proj_bias = proj_module.bias
+                new_output = torch.addmm(out_proj_bias, inputs.squeeze(), out_proj)
+            
+            elif 'gpt2' in model_config['name_or_path']: # GPT2 uses Conv1D (not nn.Linear) & has a bias term, GPTJ does not
                 out_proj_bias = proj_module.bias
                 new_output = torch.addmm(out_proj_bias, inputs.squeeze(), out_proj)
 

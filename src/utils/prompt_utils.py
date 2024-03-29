@@ -110,6 +110,9 @@ def get_prompt_parts_and_labels(prompt_data, query_sentence=None):
     prompt_parts: structured list of words to be flattened and tokenized
     prompt_part_labels: structured list of labels to be flattened & extended over tokenization
     """
+    print('get_prompt_parts_and_labels')
+    print('----------------------------')
+
     if query_sentence is None and prompt_data['query_target'] is not None:
         query_sentence = prompt_data['query_target']['input']
     if isinstance(query_sentence, list):
@@ -117,6 +120,8 @@ def get_prompt_parts_and_labels(prompt_data, query_sentence=None):
     n_examples = len(prompt_data['examples'])
     assemble_icl_example = lambda example, prompt_data: [prompt_data['prefixes']['input'], example['input'], prompt_data['separators']['input'], prompt_data['prefixes']['output'], example['output'], prompt_data['separators']['output']]
     assemble_icl_query = lambda query, prompt_data: [prompt_data['prefixes']['input'], query, prompt_data['separators']['input'], prompt_data['prefixes']['output']]
+    
+
 
     prompt_instructions = [prompt_data['prefixes']['instructions'], prompt_data['instructions'], prompt_data['separators']['instructions']] 
     prompt_icl_examples = [assemble_icl_example(prompt_data['examples'][i], prompt_data) for i in range(n_examples)]
@@ -129,6 +134,9 @@ def get_prompt_parts_and_labels(prompt_data, query_sentence=None):
     prompt_parts = prompt_instructions + prompt_icl_examples + prompt_icl_query
 
     prompt_part_labels = prompt_instructions_labels + prompt_icl_examples_labels + prompt_icl_query_labels
+
+    print("prompt_parts:",prompt_parts)
+    print("prompt_part_labels:",prompt_part_labels)
 
     return prompt_parts, prompt_part_labels
 
@@ -278,6 +286,8 @@ def get_token_meta_labels(prompt_data, tokenizer, query=None):
     token_labels: list of tuples (prompt token index, token, label)  
     prompt_string: full prompt as a string
     """
+    print(get_token_meta_labels)
+    print('----------------------------')
     if query is None and prompt_data['query_target'] is not None:
         query = prompt_data['query_target']['input']
     if isinstance(query, list):
@@ -331,13 +341,22 @@ def compute_duplicated_labels(token_labels, gt_labels):
     dup_label_ranges: indices where labels should be duplicated
     """
     check_inds = list(filter(lambda x: 'demo' in x[2], token_labels))
+    print("Check indices:", check_inds)
+    
     dup_ranges = pd.DataFrame(check_inds).groupby(2)[0].aggregate(lambda x: (x.min(), x.max()))
+    print("Duplicate Ranges:", dup_ranges)
+    
     dup_labels = [v for v,x in dup_ranges.items() if (x[1] - x[0]) > 0]
+    print("Duplicate Labels:", dup_labels)
 
     dup_label_ranges = dup_ranges[dup_labels].to_dict()
+    print("Duplicate Label Ranges:", dup_label_ranges)
+    
     dup_inds = pd.DataFrame(check_inds)[pd.DataFrame(check_inds)[2].duplicated()][0].values
+    print("Duplicate Indices:", dup_inds)
 
     index_map = {k:v[0] for (k,v) in zip([x[0] for x in token_labels if x[0] not in dup_inds], gt_labels)}
+    print("Index Map:", index_map)
 
     return index_map, dup_label_ranges
 
@@ -490,7 +509,7 @@ def load_dataset(task_name: str,
     dataset: the dict contain the train/valid/test dataset splits
     """
 
-    data_folders = ['abstractive', 'extractive']
+    data_folders = ['abstractive', 'extractive', 'generated']
     assert test_size <= 1.0
 
     path = Path(root_data_dir)

@@ -24,10 +24,7 @@ def load_gpt_model_and_tokenizer(model_name:str, device='cuda'):
 
     print("Loading: ", model_name)
 
-    if not torch.cuda.is_available() and torch.backends.mps.is_available():
-        device = torch.device('mps')
-
-    if model_name == 'gpt2-xl':
+    if model_name in ['gpt2-xl', 'gpt2']:
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         tokenizer.pad_token = tokenizer.eos_token
         model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
@@ -38,7 +35,7 @@ def load_gpt_model_and_tokenizer(model_name:str, device='cuda'):
                       "name_or_path":model.config.name_or_path,
                       "attn_hook_names":[f'transformer.h.{layer}.attn.c_proj' for layer in range(model.config.n_layer)],
                       "layer_hook_names":[f'transformer.h.{layer}' for layer in range(model.config.n_layer)]}
-        
+    
     elif 'gpt-j' in model_name.lower():
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         tokenizer.pad_token = tokenizer.eos_token

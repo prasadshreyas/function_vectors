@@ -342,6 +342,8 @@ def compute_function_vector(mean_activations, indirect_effect, model, model_conf
     for L,H,_ in top_heads:
         if 'gpt2-xl' in model_config['name_or_path']:
             out_proj = model.transformer.h[L].attn.c_proj
+        elif 'gpt2' in model_config['name_or_path']:
+            out_proj = model.transformer.h[L].attn.c_proj
         elif 'gpt-j' in model_config['name_or_path']:
             out_proj = model.transformer.h[L].attn.out_proj
         elif 'llama' in model_config['name_or_path']:
@@ -456,6 +458,8 @@ def compute_universal_function_vector(mean_activations, model, model_config, n_t
 
     for L,H,_ in top_heads:
         if 'gpt2-xl' in model_config['name_or_path']:
+            out_proj = model.transformer.h[L].attn.c_proj
+        elif 'gpt2' in model_config['name_or_path']:
             out_proj = model.transformer.h[L].attn.c_proj
         elif 'gpt-j' in model_config['name_or_path']:
             out_proj = model.transformer.h[L].attn.out_proj
